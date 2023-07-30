@@ -32,7 +32,7 @@ DJANGO_APPS = [
 ]
 
 LOCAL_APPS = [
-    # 'apps.accounts',
+    'apps.accounts',
     # 'apps.appointments',
     # 'apps.profiles',
     # 'apps.utilities',
@@ -119,7 +119,7 @@ MEDIA_ROOT = BASE_DIR / "mediafiles"
 
 
 # --------------------------------------------------------------USER MODEL ---------------------------------------------------------
-# AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
