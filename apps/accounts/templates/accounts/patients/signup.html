@@ -8,7 +8,11 @@
                 <h4>Patient Signup</h4>
                 <a href="index-2.html"><img src="{% static 'assets/img/logo-dark.png' %}" alt=""></a>
             </div>
+            
+           
+            
             <form action="{% url 'accounts:patient-signup' %}" class="form-signin" method="POST">
+                {% include 'alert.html' %}
                 {% csrf_token %}
                 {{form.as_p}}
                 <div class="form-group text-center">

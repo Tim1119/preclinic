@@ -1,0 +1,12 @@
+/* styles.css */
+
+.errorlist {
+    /* list-style: none; */
+    /* padding-left: 0; */
+    color: red;
+    /* Add any other styles you want to apply to the error list */
+  }
+  
+  .errorlist li {
+    margin-bottom: 5px;
+  }

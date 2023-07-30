@@ -4,7 +4,7 @@ import logging.config
 import logging
 from django.utils.log import DEFAULT_LOGGING
 import environ
-
+from django.contrib import messages
 env = environ.Env(DEBUG=(bool, False))
 
 #---------------------------------------------------------- READING ENV FILES ---------------------------------------------------------
@@ -34,18 +34,24 @@ DJANGO_APPS = [
 LOCAL_APPS = [
     'apps.accounts',
     # 'apps.appointments',
-    # 'apps.profiles',
-    # 'apps.utilities',
+    'apps.profiles',
+    'apps.utilities',
     # 'apps.payments',
 ]
 
-THIRD_PARTY_APPS = [
+# ----------------------- MESSAGE TAG ------------------------
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger'
+}
 
+THIRD_PARTY_APPS = [
+    'imagekit',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
+    'apps.profiles.middleware.ProfileUpdateMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

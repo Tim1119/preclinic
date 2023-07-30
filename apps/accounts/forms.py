@@ -8,7 +8,7 @@ from .models import User
 
 
 class SignUpForm(UserCreationForm):
-
+  
     class Meta(UserCreationForm):
 
         model = User

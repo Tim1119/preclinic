@@ -37,8 +37,8 @@ class Employee(BaseProfile):
 
     education = models.ForeignKey(EducationInformation,on_delete=models.SET_NULL,null=True)
     work_experience = models.ForeignKey(WorkExperience,on_delete=models.SET_NULL,null=True)
-    is_profile_completed = models.BooleanField(default=False)
-    is_profile_approved = models.BooleanField(default=False)
+    # is_profile_completed = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Employee"

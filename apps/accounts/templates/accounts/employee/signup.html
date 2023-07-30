@@ -8,6 +8,7 @@
                 <h4>Employee Signup</h4>
                 <a href="index-2.html"><img src="{% static 'assets/img/logo-dark.png' %}" alt=""></a>
             </div>
+            {% include 'alert.html' %}
             <form action="{% url 'accounts:employee-signup' %}" class="form-signin" method="POST">
                 {% csrf_token %}
                 {{form.as_p}}
