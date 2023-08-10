@@ -9,7 +9,12 @@ class UserIsPatientMixin(UserPassesTestMixin):
 class UserIsEmployeeMixin(UserPassesTestMixin):
     
     def test_func(self):
-        return self.request.user.is_employee
+        return self.request.user.is_employee and self.request.user.employee.is_approved
+    
+class UserIsDoctorMixin(UserPassesTestMixin):
+    
+    def test_func(self):
+        return self.request.user.is_employee and self.request.user.employee.is_approved and self.request.user.employee.role == 'Doctor'
 
 
  

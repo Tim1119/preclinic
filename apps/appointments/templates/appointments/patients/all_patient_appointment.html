@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-sm-4 col-3">
+            <h4 class="page-title">Appointments</h4>
+        </div>
+        <div class="col-sm-8 col-9 text-right m-b-20">
+            <a href="{% url 'appointments:create-patient-appointment' %}" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Appointment</a>
+        </div>
+    </div>
+    {% include 'alert.html' %}
+    
+    {% if appointments %}
+        
+   
+        
+    <div class="row">
+            <div class="table-responsive">
+                <table class="table table-striped custom-table">
+                    <thead>
+                        <tr>
+                            <th>Appointment</th>
+                            <th>Appointment Title</th>     
+                            <th>Doctor Name</th>
+                            <th>Department</th>
+                            <th>Appointment Date</th>
+                            <th>Appointment Time</th>
+                            <th>Cost</th>
+                            <th>Status</th>
+                            <th class="text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        {% for appointment in appointments  %}
+                            
+                        <tr>
+                            <td>APT{{appointment.pkid}}</td>
+                            <td> {{appointment.title|title|truncatewords:5}}</td>
+                            <td>
+                            {% if appointment.adminappointment.status == 'Pending'  %}
+                                None
+                            {% else %}
+                                <img width="28" height="28" src="{{appointment.adminappointment.employee.profile_picture_url}}" class="rounded-circle m-r-5" alt=""> 
+                                {{appointment.adminappointment.employee.user.full_name}}
+                            {% endif %}
+                                </td>
+                            <td>
+                                {% if appointment.adminappointment.status == 'Pending'  %}     
+                                None
+                                {% else %}
+                                {{appointment.department.name}}
+                                {% endif %}
+                            </td>
+                            <td>{{appointment.appointment_date}} </td>
+                            <td>{{appointment.adminappointment.start_time}} - {{appointment.adminappointment.end_time}}</td>
+                            <td>{{appointment.adminappointment.cost}}</td>
+                            <td><span class="custom-badge {% if appointment.adminappointment.status == 'Pending' %} status-red  {% elif appointment.adminappointment.status == 'Approved' %} status-blue {% elif appointment.adminappointment.status == 'Completed' %} status-green {% endif %}">{{appointment.adminappointment.status}}</span></td>
+                            <td class="text-right">
+                                <div class="dropdown dropdown-action">
+                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="{% url 'appointments:patient-appointment-detail' appointment.slug %}"><i class="fa fa-pencil m-r-5"></i> View Details</a>
+                                        <a class="dropdown-item" href="{% url 'appointments:update-patient-appointment' appointment.slug %}"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_appointment-{{appointment.slug}}"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                            
+                     
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% for appointment in appointments  %}
+<div id="delete_appointment-{{appointment.slug}}" class="modal fade delete-modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <img src="{% static 'assets/img/sent.png' %}" alt="" width="50" height="46">
+                <h3>Are you sure want to delete this Appointment?</h3>
+                <p>{{appointment.title|title}}</p>
+                <form action="{% url 'appointments:delete-patient-appointment' appointment.slug %}" method="POST">
+                    {% csrf_token %}
+                    <div   div class="m-t-20"> <a href="#" class="btn btn-white" data-dismiss="modal">Close</a>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% else %}
+    <h3 class="font-weight-light" >No appointments available</h3>
+
+{% endif %}
+
+{% endblock content %}
+    

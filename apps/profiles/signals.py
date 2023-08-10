@@ -13,8 +13,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         if instance.is_patient:
             Patient.objects.create(user=instance)
             logger.info(f"{instance}'s patient profile created")
-
-        elif instance.is_artisan:
+        if instance.is_employee:
             Employee.objects.create(user=instance)
             logger.info(f"{instance}'s employee profile created")
       

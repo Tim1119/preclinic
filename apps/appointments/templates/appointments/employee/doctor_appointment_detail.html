@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="content">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-1">
+            <h3 class="page-title text-underline">Patient Appointment Detail</h3>
+        </div>
+    </div>
+    <div class="card-box offset-lg-1 col-12 col-md-7 ">
+        <div class="mt-4 mb-4 mx-4">
+            <h3 class="title fs-2 text-decoration-underline">{{appointment.title|title}}</h3>
+        </div>
+        
+        {% if  appointment.adminappointment.status == 'Approved' or appointment.adminappointment.status == 'Completed' %}
+            
+        <div class="d-flex justify-content-between mx-auto card-body border my-3 mx-4" >
+            <div class="mx-2">
+                <div class="profile-img">
+                    <a href="#"><img class="avatar img-thumbnail profile-image" src="{{appointment.created_by.profile_picture_url}}" alt=""></a>
+                </div>
+            </div>
+            <div class="mx-2">
+                <div class="profile-img">
+                    <a href="#"><img class="avatar img-thumbnail" src="{{appointment.adminappointment.employee.profile_picture_url}}" alt=""></a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+            
+        <div class="mx-4">
+          
+            <div class="" >
+                <h4 class="title fs-2">Appointment ID</h4>
+                <h4 class="text font-weight-light">APT-{{appointment.pk}}</h4>
+            </div>
+
+            <div class="mt-4" >
+                <h4 class="title fs-2">Appointment Date</h4>
+                <h4 class="text font-weight-light">{{appointment.appointment_date}}</h4>
+            </div>
+            <div class="mt-4" >
+                <h4 class="title fs-2">Appointment Department</h4>
+                <h4 class="text font-weight-light">{{appointment.department}}</h4>
+            </div>
+            <div class="mt-4" >
+                <h4 class="title fs-2">Appointment Description</h4>
+                <h4 class="text font-weight-light">{{appointment.description}}</h4>
+            </div>
+            
+            {% if appointment.adminappointment.status == 'Pending' %}
+            
+            {% elif appointment.adminappointment.status == 'Approved'  %}
+            <div class="mt-4" >
+                <h4 class="title fs-2">Appointment with:</h4>
+                <h4 class="text font-weight-light">{{appointment.adminappointment.employee.user.full_name}}</h4>
+            </div>
+            <div class="mt-4" >
+                <h4 class="title fs-2">Timing:</h4>
+                <h4 class="text font-weight-light">{{appointment.adminappointment.start_time}} - {{appointment.adminappointment.end_time}}</h4>
+            </div>
+            <div class="mt-4" >
+                <h4 class="title fs-2">Cost:</h4>
+                <h4 class="text font-weight-light">{{appointment.adminappointment.cost}}</h4>
+            </div>
+            {% elif appointment.adminappointment.status == 'Completed'  %}
+            <div class="mt-4" >
+                <h4 class="title fs-2">Symptoms</h4>
+                <h4 class="text font-weight-light">{{appointment.doctorappointment.symptoms}}</h4>
+            </div>
+            <div class="mt-4" >
+                <h4 class="title fs-2">Drugs</h4>
+                <h4 class="text font-weight-light">{{appointment.doctorappointment.drugs}}</h4>
+            </div>
+            <div class="mt-4" >
+                <h4 class="title fs-2">Recommendations</h4>
+                <h4 class="text font-weight-light">{{appointment.doctorappointment.recommendation}}</h4>
+            </div>
+            {% endif %}
+                
+            
+        </div>        
+    </div>
+</div>
+
+{% endblock content %}
+    

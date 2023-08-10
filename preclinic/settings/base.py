@@ -33,7 +33,7 @@ DJANGO_APPS = [
 
 LOCAL_APPS = [
     'apps.accounts',
-    # 'apps.appointments',
+    'apps.appointments',
     'apps.profiles',
     'apps.utilities',
     # 'apps.payments',
@@ -51,7 +51,7 @@ THIRD_PARTY_APPS = [
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
-    'apps.profiles.middleware.ProfileUpdateMiddleware',
+    # 'apps.profiles.middleware.ProfileUpdateMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

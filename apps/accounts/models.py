@@ -8,6 +8,9 @@ from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManger
 
 class User(AbstractBaseUser,PermissionsMixin):
+
+  
+
     pkid = models.BigAutoField(primary_key=True,editable=False)
     id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)
     full_name = models.CharField(verbose_name=_("Full Name"),max_length=256)

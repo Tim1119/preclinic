@@ -1,6 +1,6 @@
 from django.db import models
 from .utils import BaseProfile
-from apps.utilities.models import EducationInformation,WorkExperience
+
 from django.utils.translation import gettext_lazy as _
 
 class Patient(BaseProfile):
@@ -35,14 +35,28 @@ class Patient(BaseProfile):
         
 class Employee(BaseProfile):
 
-    education = models.ForeignKey(EducationInformation,on_delete=models.SET_NULL,null=True)
-    work_experience = models.ForeignKey(WorkExperience,on_delete=models.SET_NULL,null=True)
+    class Role(models.TextChoices):
+        NURSE = 'Nurse', 'Nurse'
+        PHARMACIST = 'Pharmacist', 'Pharmacist'
+        LABORATORIST = 'Laboratorist', 'Laboratorist'
+        ACCOUNTANT = 'Accountant', 'Accountant'
+        RECEPTIONIST = 'Receptionist', 'Receptionist'
+        DOCTOR = 'Doctor', 'Doctor'
+        
+
+    # education = models.ForeignKey(EducationInformation,on_delete=models.SET_NULL,null=True)
+    # work_experience = models.ForeignKey(WorkExperience,on_delete=models.SET_NULL,null=True)
+    role = models.CharField(max_length=40,choices=Role.choices)
     # is_profile_completed = models.BooleanField(default=False)
     is_approved = models.BooleanField(default=False)
+
+   
 
     class Meta:
         verbose_name = "Employee"
         verbose_name_plural = "Employees"
+
+    
 
 
 

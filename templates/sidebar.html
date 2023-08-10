@@ -5,10 +5,51 @@
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
                 <li class="menu-title">Main</li>
-                <li class="active">
-                    <a href="index-2.html"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                {% if request.user.is_patient %}
+               
+                <li class="{% if request.resolver_match.url_name == 'patient-home-view' %}  active {% endif %}">
+                    <a href="{% url 'appointments:patient-home-view' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                </li>        
+                <li class="submenu">
+                    <a  href="#"><i class="fa fa-calendar"></i> <span> Appointments</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li class="{% if request.resolver_match.url_name == 'all-patient-appointments' %} active {% endif %}" ><a href="{% url 'appointments:all-patient-appointments' %}">All Appointments</a></li>
+                        <li  class="{% if request.resolver_match.url_name == 'pending-patient-appointments' %} active {% endif %}"><a href="{% url 'appointments:pending-patient-appointments' %}">Pending Appointments</a></li>
+                        <li  class="{% if request.resolver_match.url_name == 'approved-patient-appointments' %} active {% endif %}"><a href="{% url 'appointments:approved-patient-appointments' %}">Approved Appointments</a></li>
+                        <li  class="{% if request.resolver_match.url_name == 'completed-patient-appointments' %} active {% endif %}"><a href="{% url 'appointments:completed-patient-appointments' %}">Completed Appointments</a></li>
+                    </ul>
                 </li>
-                <li>
+                <li class="{% if request.resolver_match.url_name == 'create-patient-appointment' %}  active {% endif %}" >
+                    <a href="{% url 'appointments:create-patient-appointment' %}"><i class="fa fa-edit"></i> <span>Create Appointment</span></a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'patient-profile' %}  active {% endif %}">
+                    <a href="{% url 'profiles:patient-profile' request.user.patient.slug %}"><i class="fa fa-user-md"></i> <span>Profile</span></a>
+                </li>    
+                <li class="{% if request.resolver_match.url_name == 'patient-update-profile' %}  active {% endif %}">
+                    <a href="{% url 'profiles:patient-update-profile' request.user.patient.slug %}"><i class="fa fa-user-md"></i> <span>Update Profile</span></a>
+                </li>    
+                {% elif request.user.is_employee and request.user.employee.role == 'Doctor' %}
+
+                <li class="{% if request.resolver_match.url_name == 'doctor-home-view' %}  active {% endif %}">
+                    <a href="{% url 'appointments:doctor-home-view' %}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+                </li>        
+                <li class="submenu">
+                    <a  href="#"><i class="fa fa-calendar"></i> <span> Appointments</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li class="{% if request.resolver_match.url_name == 'all-doctor-appointments' %} active {% endif %}" ><a href="{% url 'appointments:all-doctor-appointments' %}">All Appointments</a></li>
+                        <li  class="{% if request.resolver_match.url_name == 'pending-doctor-appointments' %} active {% endif %}"><a href="{% url 'appointments:pending-doctor-appointments' %}">Pending Appointments</a></li>
+                        <li  class="{% if request.resolver_match.url_name == 'approved-doctor-appointments' %} active {% endif %}"><a href="{% url 'appointments:approved-doctor-appointments' %}">Approved Appointments</a></li>
+                        <li  class="{% if request.resolver_match.url_name == 'completed-doctor-appointments' %} active {% endif %}"><a href="{% url 'appointments:completed-doctor-appointments' %}">Completed Appointments</a></li>
+                    </ul>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'employee-profile' %}  active {% endif %}">
+                    <a href="{% url 'profiles:employee-profile' request.user.employee.slug %}"><i class="fa fa-user-md"></i> <span>Profile</span></a>
+                </li>    
+                <li class="{% if request.resolver_match.url_name == 'employee-update-profile' %}  active {% endif %}">
+                    <a href="{% url 'profiles:employee-update-profile' request.user.employee.slug %}"><i class="fa fa-user-md"></i> <span>Update Profile</span></a>
+                </li>    
+
+                <!-- <li>
                     <a href="doctors.html"><i class="fa fa-user-md"></i> <span>Doctors</span></a>
                 </li>
                 <li>
@@ -102,15 +143,7 @@
                         <li><a href="tabs.html">Tabs</a></li>
                     </ul>
                 </li>
-                <li class="submenu">
-                    <a href="#"><i class="fa fa-edit"></i> <span> Forms</span> <span class="menu-arrow"></span></a>
-                    <ul style="display: none;">
-                        <li><a href="form-basic-inputs.html">Basic Inputs</a></li>
-                        <li><a href="form-input-groups.html">Input Groups</a></li>
-                        <li><a href="form-horizontal.html">Horizontal Form</a></li>
-                        <li><a href="form-vertical.html">Vertical Form</a></li>
-                    </ul>
-                </li>
+              
                 <li class="submenu">
                     <a href="#"><i class="fa fa-table"></i> <span> Tables</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
@@ -158,7 +191,11 @@
                             <a href="javascript:void(0);"><span>Level 1</span></a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
+
+                {% endif %}
+                    
+               
             </ul>
         </div>
     </div>
