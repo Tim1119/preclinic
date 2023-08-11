@@ -2,7 +2,7 @@
 {% block content %}
 <div class="content">
     <div class="row">
-        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
             <div class="dash-widget">
                 <span class="dash-widget-bg1"><i class="fa fa-stethoscope" aria-hidden="true"></i></span>
                 <div class="dash-widget-info text-right">
@@ -12,7 +12,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
             <div class="dash-widget">
                 <span class="dash-widget-bg2"><i class="fa fa-user-o"></i></span>
                 <div class="dash-widget-info text-right">
@@ -21,21 +21,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
             <div class="dash-widget">
                 <span class="dash-widget-bg3"><i class="fa fa-user-md" aria-hidden="true"></i></span>
                 <div class="dash-widget-info text-right">
-                    <h3>{{approved_appointments_count}}</h3>
-                    <span class="widget-title3">Approved <i class="fa fa-check" aria-hidden="true"></i></span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-            <div class="dash-widget">
-                <span class="dash-widget-bg4"><i class="fa fa-heartbeat" aria-hidden="true"></i></span>
-                <div class="dash-widget-info text-right">
-                    <h3>{{total_amount_spent}}</h3>
-                    <span class="widget-title4">Total Amount Spent<i class="fa fa-check" aria-hidden="true"></i></span>
+                    <h3>{{upcoming_appointments_count}}</h3>
+                    <span class="widget-title3">Upcoming <i class="fa fa-check" aria-hidden="true"></i></span>
                 </div>
             </div>
         </div>
@@ -73,7 +64,7 @@
         <div class="col-12 col-md-6 col-lg-6 col-xl-6">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title d-inline-block">Pending Appointments </h4> <a href="{% url 'appointments:completed-patient-appointments' %}" class="btn btn-primary float-right">View all</a>
+                    <h4 class="card-title d-inline-block">Pending Appointments </h4> <a href="{% url 'appointments:pending-doctor-appointments' %}" class="btn btn-primary float-right">View all</a>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -120,7 +111,7 @@
         <div class="col-12 col-md-6 col-lg-6 col-xl-6">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title d-inline-block">Approved Appointments</h4> <a href="{% url 'appointments:approved-patient-appointments' %}" class="btn btn-primary float-right">View all</a>
+                    <h4 class="card-title d-inline-block">Approved Appointments</h4> <a href="{% url 'appointments:approved-doctor-appointments' %}" class="btn btn-primary float-right">View all</a>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -178,7 +169,7 @@
         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title d-inline-block">Completed Appointments </h4> <a href="{% url 'appointments:completed-patient-appointments' %}" class="btn btn-primary float-right">View all</a>
+                    <h4 class="card-title d-inline-block">Completed Appointments </h4> <a href="{% url 'appointments:completed-doctor-appointments' %}" class="btn btn-primary float-right">View all</a>
                 </div>
                 <div class="card-block">
                     <div class="table-responsive">
@@ -221,7 +212,7 @@
                 </div>
             </div>
         </div>
-  
+      
     </div>
 </div>
 {% endblock content %}

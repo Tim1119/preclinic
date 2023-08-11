@@ -50,7 +50,7 @@
             
             {% if appointment.adminappointment.status == 'Pending' %}
             
-            {% elif appointment.adminappointment.status == 'Approved'  %}
+            {% elif  appointment.adminappointment.status == 'Approved' or appointment.adminappointment.status == 'Completed'  %}
             <div class="mt-4" >
                 <h4 class="title fs-2">Appointment with:</h4>
                 <h4 class="text font-weight-light">{{appointment.adminappointment.employee.user.full_name}}</h4>
@@ -63,10 +63,15 @@
                 <h4 class="title fs-2">Cost:</h4>
                 <h4 class="text font-weight-light">{{appointment.adminappointment.cost}}</h4>
             </div>
-            {% elif appointment.adminappointment.status == 'Completed'  %}
+            {% endif %}
+            {% if appointment.adminappointment.status == 'Completed'  %}
             <div class="mt-4" >
                 <h4 class="title fs-2">Symptoms</h4>
                 <h4 class="text font-weight-light">{{appointment.doctorappointment.symptoms}}</h4>
+            </div>
+            <div class="mt-4" >
+                <h4 class="title fs-2">Ailment</h4>
+                <h4 class="text font-weight-light">{{appointment.doctorappointment.ailment}}</h4>
             </div>
             <div class="mt-4" >
                 <h4 class="title fs-2">Drugs</h4>

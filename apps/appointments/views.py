@@ -241,18 +241,17 @@ class DoctorDetailAppointmentView(LoginRequiredMixin,UserIsDoctorMixin,DetailVie
     
 class DoctorUpdateAppointmentView(LoginRequiredMixin,UserIsDoctorMixin,SuccessMessageMixin,UpdateView):
     model=DoctorAppointment
-    # context_object_name='doctor-appointment'
     form_class = DoctorAppointmentForm
     success_message = 'Appointment successfully updated'
     success_url = reverse_lazy('appointments:all-doctor-appointments')
     template_name = 'appointments/employee/doctor_update_appointment.html'
 
-    # def get_object(self, queryset=None):
-    #     obj = super(DoctorUpdateAppointmentView, self).get_object()
-    #     if not obj.appointment.adminappointment.employee.user == self.request.user:
-    #         raise PermissionDenied(
-    #             "You don't have permission to update an appointment you didn't create")
-    #     return obj
+    def get_object(self, queryset=None):
+        obj = super(DoctorUpdateAppointmentView, self).get_object()
+        if not obj.appointment.adminappointment.employee.user == self.request.user:
+            raise PermissionDenied(
+                "You don't have permission to update an appointment you didn't create")
+        return obj
     
 
     
