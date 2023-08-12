@@ -36,7 +36,10 @@ LOCAL_APPS = [
     'apps.appointments',
     'apps.profiles',
     'apps.utilities',
-    # 'apps.payments',
+    'apps.ailment',
+    'apps.course',
+    'apps.departments',
+    'apps.institution',
 ]
 
 # ----------------------- MESSAGE TAG ------------------------

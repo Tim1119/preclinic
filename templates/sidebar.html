@@ -48,6 +48,41 @@
                 <li class="{% if request.resolver_match.url_name == 'employee-update-profile' %}  active {% endif %}">
                     <a href="{% url 'profiles:employee-update-profile' request.user.employee.slug %}"><i class="fa fa-user-md"></i> <span>Update Profile</span></a>
                 </li>    
+                {% elif request.user.is_staff %}
+                
+                <li class="{% if request.resolver_match.url_name == 'staff-home-view' %}  active {% endif %}">
+                    <a href="{% url 'appointments:staff-home-view' %}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+                </li>        
+                <li class="submenu">
+                    <a  href="#"><i class="fa fa-calendar"></i> <span> Appointments</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li class="{% if request.resolver_match.url_name == 'all-staff-appointments' %} active {% endif %}" ><a href="{% url 'appointments:all-staff-appointments' %}">All Appointments</a></li>
+                        <li  class="{% if request.resolver_match.url_name == 'pending-staff-appointments' %} active {% endif %}"><a href="{% url 'appointments:pending-staff-appointments' %}">Pending Appointments</a></li>
+                        <li  class="{% if request.resolver_match.url_name == 'approved-staff-appointments' %} active {% endif %}"><a href="{% url 'appointments:approved-staff-appointments' %}">Approved Appointments</a></li>
+                        <li  class="{% if request.resolver_match.url_name == 'completed-staff-appointments' %} active {% endif %}"><a href="{% url 'appointments:completed-staff-appointments' %}">Completed Appointments</a></li>
+                    </ul>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'all-doctors' %}  active {% endif %}">
+                    <a href="{% url 'profiles:all-doctors' %}"><i class="fa fa-user-md"></i> <span>Doctors</span></a>
+                </li>    
+                <li class="{% if request.resolver_match.url_name == 'all-employees' %}  active {% endif %}">
+                    <a href="{% url 'profiles:all-employees' %}"><i class="fa fa-user-o"></i> <span>Employees</span></a>
+                </li>    
+                <li class="{% if request.resolver_match.url_name == 'all-patients' %}  active {% endif %}">
+                    <a href="{% url 'profiles:all-patients'  %}"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
+                </li>    
+                <li class="{% if request.resolver_match.url_name == 'all-ailments' %}  active {% endif %}">
+                    <a href="{% url 'ailments:all-ailments'  %}"><i class="fa fa-hospital-o"></i> <span>Ailments</span></a>
+                </li>    
+                <li class="{% if request.resolver_match.url_name == 'all-courses' %}  active {% endif %}">
+                    <a href="{% url 'courses:all-courses'  %}"><i class="fa fa-book"></i> <span>Courses</span></a>
+                </li>    
+                <li class="{% if request.resolver_match.url_name == 'all-departments' %}  active {% endif %}">
+                    <a href="{% url 'departments:all-departments'  %}"><i class="fa fa-hospital-o"></i> <span>Departments</span></a>
+                </li>    
+                <li class="{% if request.resolver_match.url_name == 'all-institutions' %}  active {% endif %}">
+                    <a href="{% url 'institutions:all-institutions'  %}"><i class="fa fa-cube"></i> <span>Institutions</span></a>
+                </li>    
 
                 <!-- <li>
                     <a href="doctors.html"><i class="fa fa-user-md"></i> <span>Doctors</span></a>

@@ -1,0 +1,187 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="content">
+  <div class="row">
+    <div class="col-sm-4 col-3">
+      <h4 class="page-title">Patients</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <div
+          id="DataTables_Table_0_wrapper"
+          class="dataTables_wrapper dt-bootstrap4 no-footer"
+        >
+         
+          <div class="row">
+            <div class="col-sm-12">
+              <table
+                class="table table-border table-striped custom-table datatable mb-0 dataTable no-footer"
+                id="DataTables_Table_0"
+                role="grid"
+                aria-describedby="DataTables_Table_0_info"
+              >
+                <thead>
+                  <tr role="row">
+                    <th
+                      class="sorting_asc"
+                      tabindex="0"
+                      aria-controls="DataTables_Table_0"
+                      rowspan="1"
+                      colspan="1"
+                      aria-sort="ascending"
+                      aria-label="Name: activate to sort column descending"
+                      style="width: 142.359px"
+                    >
+                      Name
+                    </th>
+                    <th
+                      class="sorting"
+                      tabindex="0"
+                      aria-controls="DataTables_Table_0"
+                      rowspan="1"
+                      colspan="1"
+                      aria-label="Age: activate to sort column ascending"
+                      style="width: 31.7344px"
+                    >
+                      Age
+                    </th>
+                    <th
+                      class="sorting"
+                      tabindex="0"
+                      aria-controls="DataTables_Table_0"
+                      rowspan="1"
+                      colspan="1"
+                      aria-label="Address: activate to sort column ascending"
+                      style="width: 325.906px"
+                    >
+                      Address
+                    </th>
+                    <th
+                      class="sorting"
+                      tabindex="0"
+                      aria-controls="DataTables_Table_0"
+                      rowspan="1"
+                      colspan="1"
+                      aria-label="Phone: activate to sort column ascending"
+                      style="width: 84.7188px"
+                    >
+                      Phone
+                    </th>
+                    <th
+                      class="sorting"
+                      tabindex="0"
+                      aria-controls="DataTables_Table_0"
+                      rowspan="1"
+                      colspan="1"
+                      aria-label="Email: activate to sort column ascending"
+                      style="width: 191.938px"
+                    >
+                      Email
+                    </th>
+                 
+                  </tr>
+                </thead>
+                <tbody>
+                    
+                    {% for profile in profiles  %}
+                        
+                    <tr role="row" class="odd">
+                      <td class="sorting_1">
+                        <img
+                          width="28"
+                          height="28"
+                          src="{{profile.profile_picture_url}}"
+                          class="rounded-circle m-r-5"
+                          alt=""
+                        />
+                        {{profile.user.full_name|title}}
+                      </td>
+                      <td>{{profile.date_of_birth}}</td>
+                      <td>{{profile.address}}</td>
+                      <td>{{profile.phone_number}}</td>
+                      <td>{{profile.user.email}}
+
+                        {{profile.user.is_employee}}
+                      </td>                      
+                    </tr>
+                    {% endfor %}
+                        
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-5">
+              <div
+                class="dataTables_info"
+                id="DataTables_Table_0_info"
+                role="status"
+                aria-live="polite"
+              >
+                Showing 1 to 10 of 14 entries
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-7">
+              <div
+                class="dataTables_paginate paging_simple_numbers"
+                id="DataTables_Table_0_paginate"
+              >
+                <ul class="pagination">
+                  <li
+                    class="paginate_button page-item previous disabled"
+                    id="DataTables_Table_0_previous"
+                  >
+                    <a
+                      href="#"
+                      aria-controls="DataTables_Table_0"
+                      data-dt-idx="0"
+                      tabindex="0"
+                      class="page-link"
+                      >Previous</a
+                    >
+                  </li>
+                  <li class="paginate_button page-item active">
+                    <a
+                      href="#"
+                      aria-controls="DataTables_Table_0"
+                      data-dt-idx="1"
+                      tabindex="0"
+                      class="page-link"
+                      >1</a
+                    >
+                  </li>
+                  <li class="paginate_button page-item">
+                    <a
+                      href="#"
+                      aria-controls="DataTables_Table_0"
+                      data-dt-idx="2"
+                      tabindex="0"
+                      class="page-link"
+                      >2</a
+                    >
+                  </li>
+                  <li
+                    class="paginate_button page-item next"
+                    id="DataTables_Table_0_next"
+                  >
+                    <a
+                      href="#"
+                      aria-controls="DataTables_Table_0"
+                      data-dt-idx="3"
+                      tabindex="0"
+                      class="page-link"
+                      >Next</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

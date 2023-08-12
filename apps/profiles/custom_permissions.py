@@ -15,6 +15,12 @@ class UserIsDoctorMixin(UserPassesTestMixin):
     
     def test_func(self):
         return self.request.user.is_employee and self.request.user.employee.is_approved and self.request.user.employee.role == 'Doctor'
+    
+
+class UserIsStaffMixin(UserPassesTestMixin):
+    
+    def test_func(self):
+        return self.request.user.is_staff
 
 
  

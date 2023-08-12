@@ -14,16 +14,15 @@ from datetime import date
 # LoginRequiredMixin,
 from datetime import datetime
 from django.contrib.messages.views import SuccessMessageMixin
-from .forms import PatientAppointmentForm,DoctorAppointmentForm
+from .forms import PatientAppointmentForm,DoctorAppointmentForm,AdminAppointmentForm
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
-from apps.profiles.custom_permissions import UserIsEmployeeMixin,UserIsPatientMixin,UserIsDoctorMixin
+from apps.profiles.custom_permissions import UserIsEmployeeMixin,UserIsPatientMixin,UserIsDoctorMixin,UserIsStaffMixin
 
 
 #  --------------------------------------------------- Patient Views ---------------------------------------------------------
 
-class PatientHomeView(LoginRequiredMixin,UserIsPatientMixin,ListView):
-    model= Appointment
+class PatientHomeView(LoginRequiredMixin,UserIsPatientMixin,TemplateView):
     template_name= 'appointments/patients/index.html'
     context_object_name="appointments"
 
@@ -155,8 +154,7 @@ class PatientDeleteAppointmentView(LoginRequiredMixin,UserIsPatientMixin,Success
 
 #  --------------------------------------------------- Doctor Views ---------------------------------------------------------
 
-class DoctorHomeView(LoginRequiredMixin,UserIsDoctorMixin,ListView):
-    model= DoctorAppointment
+class DoctorHomeView(LoginRequiredMixin,UserIsDoctorMixin,TemplateView):
     template_name= 'appointments/employee/index.html'
     context_object_name="appointments"
 
@@ -253,5 +251,92 @@ class DoctorUpdateAppointmentView(LoginRequiredMixin,UserIsDoctorMixin,SuccessMe
                 "You don't have permission to update an appointment you didn't create")
         return obj
     
+
+#  --------------------------------------------------- Admin Views ---------------------------------------------------------
+
+class StaffHomeView(LoginRequiredMixin,UserIsStaffMixin,TemplateView):
+    template_name= 'appointments/staff/index.html'
+    context_object_name="appointments"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        pending_appointments_count = Appointment.objects.filter(adminappointment__status='Pending').count()
+        upcoming_appointments_count = Appointment.objects.filter(adminappointment__status='Approved').count()
+        completed_appointments_count = Appointment.objects.filter(adminappointment__status='Completed').count()
+        
+        
+        pending_appointments = Appointment.objects.filter(adminappointment__status='Pending')[0:5]
+        completed_appointments = Appointment.objects.filter(adminappointment__status='Completed')[0:5]
+        upcoming_appointments = Appointment.objects.filter(adminappointment__status='Approved')[0:5]
+        
+        context['pending_appointments_count'] = pending_appointments_count
+        context['upcoming_appointments_count'] = upcoming_appointments_count
+        context['completed_appointments_count'] = completed_appointments_count
+        
+        context['pending_appointments'] =pending_appointments
+        context['completed_appointments'] =completed_appointments
+        context['upcoming_appointments'] =upcoming_appointments
+        return context
+    
+class AllAppointmentsStaffView(LoginRequiredMixin,UserIsStaffMixin,ListView):
+    model = Appointment
+    template_name = 'appointments/staff/all_appointments.html'
+    context_object_name='appointments'
+    paginate_by = 10
+
+    
+    
+class PendingStaffAppointmentsView(LoginRequiredMixin,UserIsStaffMixin,ListView):
+    model = Appointment
+    template_name = 'appointments/staff/all_appointments.html'
+    context_object_name='appointments'
+    paginate_by = 10
+
+    def get_queryset(self):
+        appointments = Appointment.objects.filter(adminappointment__status='Pending')
+        return appointments
+    
+class ApprovedStaffAppointmentsView(LoginRequiredMixin,UserIsStaffMixin,ListView):
+    model = Appointment
+    template_name = 'appointments/staff/all_appointments.html'
+    context_object_name='appointments'
+    paginate_by = 10
+
+    def get_queryset(self):
+        appointments = Appointment.objects.filter(adminappointment__status='Approved')
+        return appointments
+    
+class CompletedStaffAppointmentsView(LoginRequiredMixin,UserIsStaffMixin,ListView):
+    model = Appointment
+    template_name = 'appointments/staff/all_appointments.html'
+    context_object_name='appointments'
+    paginate_by = 10
+
+    def get_queryset(self):
+        appointments = Appointment.objects.filter(adminappointment__status='Completed')
+        return appointments
+    
+    
+class StaffDetailAppointmentView(LoginRequiredMixin,UserIsStaffMixin,DetailView):
+    model = Appointment
+    success_url = reverse_lazy('appointments:all-staff-appointments')
+    template_name = 'appointments/staff/staff_appointment_detail.html'
+    context_object_name='appointment'
+
+   
+class StaffUpdateAppointmentView(LoginRequiredMixin,UserIsStaffMixin,SuccessMessageMixin,UpdateView):
+    model = AdminAppointment
+    form_class = AdminAppointmentForm
+    success_message = 'Appointment successfully updated'
+    success_url = reverse_lazy('appointments:all-staff-appointments')
+    template_name = 'appointments/staff/staff_update_appointment.html'
+
+    def get_object(self, queryset=None):
+        obj = super(StaffUpdateAppointmentView, self).get_object()
+        if not self.request.user.is_staff:
+            raise PermissionDenied()
+        return obj
+    
+
 
     

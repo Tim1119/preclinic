@@ -2,10 +2,9 @@ from django.db import models
 import uuid
 from django.utils.translation import gettext_lazy as _
 from autoslug import AutoSlugField
-from imagekit.models import ProcessedImageField
-from imagekit.processors import ResizeToFill
-from django.core.validators import FileExtensionValidator
 from apps.profiles.models import Employee
+from apps.course.models import Course
+from apps.institution.models import Institution
 
 class TimeStampedUUIDModel(models.Model):
     pkid = models.BigAutoField(primary_key=True, editable=False)
@@ -15,30 +14,6 @@ class TimeStampedUUIDModel(models.Model):
 
     class Meta:
         abstract = True
-
-
-# Create your models here.
-class Institution(TimeStampedUUIDModel):
-    name = models.CharField(max_length=260,unique=True,verbose_name=_("Name of Institution"))
-    slug = AutoSlugField(populate_from='name', unique=True)
-
-    class Meta:
-        verbose_name = "Institution"
-        verbose_name_plural = "Institutions"
-
-    def __str__(self):
-        return self.name
-
-class Course(TimeStampedUUIDModel):
-    name = models.CharField(max_length=260,unique=True,verbose_name=_("Course of Study"))
-    slug = AutoSlugField(populate_from='name', unique=True)
-
-    class Meta:
-        verbose_name = "Course"
-        verbose_name_plural = "Courses"
-
-    def __str__(self):
-        return self.name
 
 
 class EducationInformation(TimeStampedUUIDModel):
@@ -66,23 +41,6 @@ class WorkExperience(TimeStampedUUIDModel):
         verbose_name_plural = _("Work Experience")
 
 
-class HospitalDepartments(TimeStampedUUIDModel):
-    name = models.CharField(max_length=300)
-    slug = AutoSlugField(populate_from='name', unique=True)
-    description = models.TextField()
-
-    def __str__(self) -> str:
-        return self.name
-    
-    class Meta:
-        verbose_name = _("Hospital Departments")
-        verbose_name_plural = _("Hospital Departments")
 
 
-class Ailment(TimeStampedUUIDModel):
-    name = models.CharField(max_length=300,unique=True)
-    slug = AutoSlugField(populate_from='name', unique=True)
-    description = models.TextField()
 
-    def __str__(self) -> str:
-        return self.name

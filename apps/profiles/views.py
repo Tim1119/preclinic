@@ -1,15 +1,16 @@
 from typing import Any, Dict, Optional
 from django.db import models
+from django.db.models.query import QuerySet
 from django.shortcuts import render,get_object_or_404
-from django.views.generic import DetailView,UpdateView
+from django.views.generic import DetailView,UpdateView,ListView
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .custom_permissions import UserIsEmployeeMixin,UserIsPatientMixin,UserIsDoctorMixin
+from .custom_permissions import UserIsEmployeeMixin,UserIsStaffMixin,UserIsPatientMixin,UserIsDoctorMixin
 from .models import Employee,Patient
 from .forms import PatientProfileForm,EmployeeProfileForm
 from apps.appointments.models import Appointment,AdminAppointment,Employee
 from django.db.models import Sum,Count
-from django.urls import reverse
+from django.urls import reverse,reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 
 
@@ -65,7 +66,7 @@ class EmployeeProfileView(UserIsDoctorMixin,LoginRequiredMixin,DetailView):
 
     def get_object(self, queryset=None):
         employee = super(EmployeeProfileView,self).get_object()
-        if employee.user != self.request.user:
+        if (employee.user != self.request.user) or self.request.user.is_staff is False:
             raise PermissionDenied("You do not permission to view a profile that's not yours")
         return employee
     
@@ -101,3 +102,24 @@ class EmployeeUpdateProfileView(UserIsDoctorMixin,LoginRequiredMixin,SuccessMess
     def get_success_url(self):
         return reverse('profiles:employee-profile', kwargs={'slug': self.object.slug})
     
+
+class AllPatientsView(LoginRequiredMixin,UserIsStaffMixin,ListView):
+    model=Patient
+    context_object_name='profiles'
+    template_name = 'profiles/staff/all_profiles.html'
+    paginate_by = 10
+
+class AllEmployeesView(LoginRequiredMixin,UserIsStaffMixin,ListView):
+    model=Employee
+    context_object_name='profiles'
+    template_name = 'profiles/staff/all_profiles.html'
+    paginate_by = 10
+
+class AllDoctorsView(LoginRequiredMixin,UserIsStaffMixin,ListView):
+    model=Employee
+    context_object_name='doctors'
+    template_name = 'profiles/staff/all_doctors.html'
+    paginate_by = 10
+
+    def get_queryset(self) -> QuerySet[Any]:
+        return Employee.objects.filter(role='Doctor')

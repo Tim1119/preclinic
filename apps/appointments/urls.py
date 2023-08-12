@@ -3,13 +3,27 @@ from .views import (PatientHomeView,PatientCreateAppointmentView,PatientDeleteAp
                     PatientUpdateAppointmentView,PatientDetailAppointmentView,AllPatientAppointmentsView,
                     PendingPatientAppointmentsView,ApprovedPatientAppointmentsView,CompletedPatientAppointmentsView,
                     DoctorHomeView,AllDoctorAppointmentsView,PendingDoctorAppointmentsView,UpcomingDoctorAppointmentsView,
-                    CompletedDoctorAppointmentsView,DoctorDetailAppointmentView,DoctorUpdateAppointmentView)
+                    CompletedDoctorAppointmentsView,DoctorDetailAppointmentView,DoctorUpdateAppointmentView,
+                    StaffHomeView,AllAppointmentsStaffView,PendingStaffAppointmentsView,CompletedStaffAppointmentsView,ApprovedStaffAppointmentsView,
+                    StaffDetailAppointmentView,StaffUpdateAppointmentView
+                    )
 
 
 app_name = 'appointments'
 
+admin_patterns = [
+    path('staff-home/', StaffHomeView.as_view(),name='staff-home-view'),
+    path('all-appointments/', AllAppointmentsStaffView.as_view(),name='all-staff-appointments'),
+    path('pending-staff-appointments/', PendingStaffAppointmentsView.as_view(),name='pending-staff-appointments'),
+    path('approved-staff-appointments/', ApprovedStaffAppointmentsView.as_view(),name='approved-staff-appointments'),
+    path('completed-staff-appointments/', CompletedStaffAppointmentsView.as_view(),name='completed-staff-appointments'),
+    path('get-staff-appointment/<str:slug>/', StaffDetailAppointmentView.as_view(),name='staff-appointment-detail'),
+    path('update-staff-appointment/<str:slug>/', StaffUpdateAppointmentView.as_view(),name='update-staff-appointment'),
+    # path('delete-staff-appointment/<str:slug>/', StaffDeleteAppointmentView.as_view(),name='delete-staff-appointment'),
+]
+
 patient_patterns = [
-    path('patient/', PatientHomeView.as_view(),name='patient-home-view'),
+    path('doctor-home/', PatientHomeView.as_view(),name='patient-home-view'),
     path('all-patient-appointments/', AllPatientAppointmentsView.as_view(),name='all-patient-appointments'),
     path('pending-patient-appointments/', PendingPatientAppointmentsView.as_view(),name='pending-patient-appointments'),
     path('approved-patient-appointments/', ApprovedPatientAppointmentsView.as_view(),name='approved-patient-appointments'),
@@ -20,7 +34,7 @@ patient_patterns = [
     path('delete-patient-appointment/<str:slug>/', PatientDeleteAppointmentView.as_view(),name='delete-patient-appointment'),
 ]
 doctor_patterns = [
-    path('doctor/', DoctorHomeView.as_view(),name='doctor-home-view'),
+    path('patient-home/', DoctorHomeView.as_view(),name='doctor-home-view'),
     path('all-doctor-appointments/', AllDoctorAppointmentsView.as_view(),name='all-doctor-appointments'),
     path('pending-doctor-appointments/', PendingDoctorAppointmentsView.as_view(),name='pending-doctor-appointments'),
     path('approved-doctor-appointments/', UpcomingDoctorAppointmentsView.as_view(),name='approved-doctor-appointments'),
@@ -29,4 +43,4 @@ doctor_patterns = [
     path('update-doctor-appointment/<str:slug>/', DoctorUpdateAppointmentView.as_view(),name='update-doctor-appointment'),
    
 ]
-urlpatterns = patient_patterns + doctor_patterns
+urlpatterns = patient_patterns + doctor_patterns + admin_patterns

@@ -1,12 +1,13 @@
 from django.db import models
-from apps.utilities.models import  TimeStampedUUIDModel,Ailment
+from apps.utilities.models import  TimeStampedUUIDModel
+from apps.ailment.models import Ailment
 from apps.profiles.models import Employee,Patient
 from django.utils.translation import gettext_lazy as _
 from autoslug import AutoSlugField
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 import secrets
-from apps.utilities.models import HospitalDepartments
+from apps.departments.models import HospitalDepartments
 
 
 User = get_user_model()
@@ -42,7 +43,7 @@ class AdminAppointment(TimeStampedUUIDModel):
         return f"Admin Appointment created for {self.appointment.title}"
 
 class DoctorAppointment(TimeStampedUUIDModel):
-    ailment = models.OneToOneField(Ailment,null=True,on_delete=models.SET_NULL)
+    ailment = models.ForeignKey(Ailment,null=True,on_delete=models.SET_NULL,blank=True)
     appointment = models.OneToOneField(Appointment,null=True,on_delete=models.CASCADE)
     symptoms =models.TextField()
     recommendation = models.TextField()
