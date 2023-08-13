@@ -170,3 +170,8 @@ logging.config.dictConfig(
         },
     }
 )
+
+
+
+
+WSGI_APPLICATION = 'vercel_app.wsgi.app'
