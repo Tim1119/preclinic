@@ -9,7 +9,7 @@
     </div>
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
-            <form method="POST" action="{% url 'profiles:patient-update-profile' profile.slug %}" >
+            <form method="POST" action="{% url 'profiles:patient-update-profile' profile.slug %}" enctype="multipart/form-data" >
                 {% csrf_token %}
                 {{form.as_p}}
                 <div class="m-t-20 text-center">
