@@ -55,6 +55,12 @@ class PatientUpdateProfileView(SuccessMessageMixin,UserIsPatientMixin,LoginRequi
             raise PermissionDenied("You do not permission to update a profile that's not yours")
         return patient_profile
     
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self.object.user.patient.has_updated_profile = True
+        self.object.user.patient.save()
+        return response
+    
     def get_success_url(self):
         return reverse('profiles:patient-profile', kwargs={'slug': self.object.slug})
     
@@ -100,6 +106,12 @@ class EmployeeUpdateProfileView(UserIsEmployeeMixin,LoginRequiredMixin,SuccessMe
         if employee.user != self.request.user:
             raise PermissionDenied("You do not permission to update a profile that's not yours")
         return employee
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self.object.user.employee.has_updated_profile = True
+        self.object.user.employee.save()
+        return response
 
     def get_success_url(self):
         return reverse('profiles:employee-profile', kwargs={'slug': self.object.slug})

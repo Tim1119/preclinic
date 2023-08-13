@@ -7,7 +7,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from django.contrib.auth.views import LogoutView
 from django.urls import reverse_lazy
-from apps.profiles.models import Employee
+from apps.profiles.models import Employee,Patient
 
 class PatientSignupView(SuccessMessageMixin,CreateView):
     form_class = SignUpForm
@@ -52,32 +52,26 @@ class LoginAccountView(SuccessMessageMixin, LoginView):
     authentication_form = SignInForm
     success_message = 'Welcome, you are now logged in'
 
-    # # def form_valid(self, form):
-    # #     self.user =form.get_user()
-    # #     if self.user.is_authenticated:
-    # #         if self.user.is_patient is True:
-    # #             return redirect('appointments:all-patient-appointments')  # Replace with your customer dashboard URL
-    # #         elif self.user.is_employee is True:
-    # #             return redirect("appointments:general-employee-view-for-all-employees")
-    # #         elif self.user.is_staff is True:
-              
-    # #             return redirect('appointments:all-staff-appointments') 
-    # #     else:
-    # #         print(form.errors)
-    # #         messages.info(self.request,message="You do not a permitted account")
-    #         redirect("accounts:login")
+  
     def get_success_url(self):
         user = self.request.user
 
         if user.is_authenticated:
             if user.is_patient:
-                return reverse('appointments:all-patient-appointments')
-            elif user.is_employee:
-                return reverse('appointments:general-employee-view-for-all-employees')
+                if self.request.user.patient.has_updated_profile:
+                    return reverse('appointments:all-patient-appointments')
+                else:
+                    return reverse('profiles:patient-update-profile', kwargs={'slug':user.patient.slug})
+            if self.request.user.is_employee:
+                if self.request.user.employee.has_updated_profile:
+                    return reverse('appointments:general-employee-view-for-all-employees')
+                else:
+                    return reverse('profiles:employee-update-profile', kwargs={'slug': user.employee.slug})
             elif user.is_staff:
                 return reverse('appointments:all-staff-appointments')
-        messages.info(self.request,"Sorry your account type is not permitted")
-        return redirect("accounts:home")
+            else:
+                messages.info(self.request,"Sorry your account type is not permitted")
+                return reverse("accounts:home")
 
 
 class LogoutUserView(LogoutView):

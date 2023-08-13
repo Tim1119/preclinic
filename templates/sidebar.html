@@ -5,7 +5,7 @@
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
                 <li class="menu-title">Main</li>
-                {% if request.user.is_patient %}
+                {% if request.user.is_patient and request.user.patient.has_updated_profile %}
                
                 <li class="{% if request.resolver_match.url_name == 'patient-home-view' %}  active {% endif %}">
                     <a href="{% url 'appointments:patient-home-view' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
@@ -28,7 +28,7 @@
                 <li class="{% if request.resolver_match.url_name == 'patient-update-profile' %}  active {% endif %}">
                     <a href="{% url 'profiles:patient-update-profile' request.user.patient.slug %}"><i class="fa fa-user-md"></i> <span>Update Profile</span></a>
                 </li>    
-                {% elif request.user.is_employee and request.user.employee.role == 'Doctor' %}
+                {% elif request.user.is_employee and request.user.employee.role == 'Doctor' and request.user.patient.has_updated_profile %}
                 
                 <li class="{% if request.resolver_match.url_name == 'doctor-home-view' %}  active {% endif %}">
                     <a href="{% url 'appointments:doctor-home-view' %}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
@@ -84,7 +84,7 @@
 
                {% endif %}
                
-               {% if request.user.is_employee %}
+               {% if request.user.is_employee and request.user.employee.has_updated_profile %}
                <li class="{% if request.resolver_match.url_name == 'general-employee-view-for-all-employees' %}  active {% endif %}">
                 <a href="{% url 'appointments:general-employee-view-for-all-employees' %}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
                 </li>        

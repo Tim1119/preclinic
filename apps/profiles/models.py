@@ -31,6 +31,10 @@ class Patient(BaseProfile):
         verbose_name = "Patient"
         verbose_name_plural = "Patients"
 
+    # def save(self, *args, **kwargs):
+    #     self.has_updated_profile = True  # Set has_updated_profile to True
+    #     super(Patient, self).save(*args, **kwargs)
+
         
 class Employee(BaseProfile):
 
@@ -43,11 +47,15 @@ class Employee(BaseProfile):
         DOCTOR = 'Doctor', 'Doctor'
         
     role = models.CharField(max_length=40,choices=Role.choices)
-    # is_profile_completed = models.BooleanField(default=False)
-    # is_approved = models.BooleanField(default=False)
+
 
     def __str__(self):
         return f'Employee account for {self.user.full_name}'
+    
+
+    # def save(self, *args, **kwargs):
+    #     self.has_updated_profile = True  # Set has_updated_profile to True
+    #     super(Employee, self).save(*args, **kwargs)
 
    
 
