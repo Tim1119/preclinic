@@ -24,6 +24,9 @@ class Appointment(TimeStampedUUIDModel):
     def __str__(self) -> str:
         return f"Appointment created for {self.title}"
     
+    class Meta:
+        ordering = ['-created_at']
+    
 class AdminAppointment(TimeStampedUUIDModel):
 
     class AppointmentStatus(models.TextChoices):

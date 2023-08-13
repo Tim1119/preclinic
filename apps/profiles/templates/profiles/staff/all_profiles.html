@@ -5,6 +5,9 @@
       <h4 class="page-title">Patients</h4>
     </div>
   </div>
+  
+  {% if profiles %}
+    
   <div class="row">
     <div class="col-md-12">
       <div class="table-responsive">
@@ -112,76 +115,52 @@
               </table>
             </div>
           </div>
-          <div class="row">
-            <div class="col-sm-12 col-md-5">
-              <div
-                class="dataTables_info"
-                id="DataTables_Table_0_info"
-                role="status"
-                aria-live="polite"
-              >
-                Showing 1 to 10 of 14 entries
-              </div>
-            </div>
-            <div class="col-sm-12 col-md-7">
-              <div
-                class="dataTables_paginate paging_simple_numbers"
-                id="DataTables_Table_0_paginate"
-              >
-                <ul class="pagination">
-                  <li
-                    class="paginate_button page-item previous disabled"
-                    id="DataTables_Table_0_previous"
-                  >
-                    <a
-                      href="#"
-                      aria-controls="DataTables_Table_0"
-                      data-dt-idx="0"
-                      tabindex="0"
-                      class="page-link"
-                      >Previous</a
-                    >
-                  </li>
-                  <li class="paginate_button page-item active">
-                    <a
-                      href="#"
-                      aria-controls="DataTables_Table_0"
-                      data-dt-idx="1"
-                      tabindex="0"
-                      class="page-link"
-                      >1</a
-                    >
-                  </li>
-                  <li class="paginate_button page-item">
-                    <a
-                      href="#"
-                      aria-controls="DataTables_Table_0"
-                      data-dt-idx="2"
-                      tabindex="0"
-                      class="page-link"
-                      >2</a
-                    >
-                  </li>
-                  <li
-                    class="paginate_button page-item next"
-                    id="DataTables_Table_0_next"
-                  >
-                    <a
-                      href="#"
-                      aria-controls="DataTables_Table_0"
-                      data-dt-idx="3"
-                      tabindex="0"
-                      class="page-link"
-                      >Next</a
-                    >
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+         
         </div>
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-5">
+        <div class="dataTables_info" role="status" aria-live="polite">
+            Showing {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }} entries
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-7 d-flex justify-content-end">
+        <div class="dataTables_paginate paging_simple_numbers">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="paginate_button page-item">
+                        <a href="?page=1" aria-label="First" class="page-link">First</a>
+                    </li>
+                    <li class="paginate_button page-item">
+                        <a href="?page={{ page_obj.previous_page_number }}" aria-label="Previous" class="page-link">Previous</a>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    <li class="paginate_button page-item {% if num == page_obj.number %}active{% endif %}">
+                        <a href="?page={{ num }}" class="page-link">{{ num }}</a>
+                    </li>
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="paginate_button page-item">
+                        <a href="?page={{ page_obj.next_page_number }}" aria-label="Next" class="page-link">Next</a>
+                    </li>
+                    <li class="paginate_button page-item">
+                        <a href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last" class="page-link">Last</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% else %}
+<h3 class="font-weight-light" >No profile available</h3>
+
+
+{% endif %}
+    
 </div>
 {% endblock content %}

@@ -59,34 +59,36 @@ class PatientUpdateProfileView(SuccessMessageMixin,UserIsPatientMixin,LoginRequi
         return reverse('profiles:patient-profile', kwargs={'slug': self.object.slug})
     
 
-class EmployeeProfileView(UserIsDoctorMixin,LoginRequiredMixin,DetailView):
+class EmployeeProfileView(UserIsEmployeeMixin,LoginRequiredMixin,DetailView):
     model = Employee
     template_name = 'profiles/employee/employee_profile.html'
     context_object_name='profile'
 
     def get_object(self, queryset=None):
         employee = super(EmployeeProfileView,self).get_object()
-        if (employee.user != self.request.user) or self.request.user.is_staff is False:
+        # if (employee.user != self.request.user) or (self.request.user.is_staff is False):
+        if (employee.user != self.request.user):
             raise PermissionDenied("You do not permission to view a profile that's not yours")
         return employee
     
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        doctor_profile = get_object_or_404(Employee,user=self.request.user,role='Doctor')
-        total_amount_spent = Appointment.objects.filter(adminappointment__employee=doctor_profile).aggregate(Sum("adminappointment__cost"))['adminappointment__cost__sum']
-        pending_appointments_count = Appointment.objects.filter(adminappointment__employee=doctor_profile,adminappointment__status='Pending').count()
-        upcoming_appointments_count = Appointment.objects.filter(adminappointment__employee=doctor_profile,adminappointment__status='upcoming').count()
-        completed_appointments_count = Appointment.objects.filter(adminappointment__employee=doctor_profile,adminappointment__status='Completed').count()
+        employee_profile = get_object_or_404(Employee,user=self.request.user)
+        if employee_profile.role == 'Doctor':
+            total_amount_spent = Appointment.objects.filter(adminappointment__employee=employee_profile).aggregate(Sum("adminappointment__cost"))['adminappointment__cost__sum']
+            pending_appointments_count = Appointment.objects.filter(adminappointment__employee=employee_profile,adminappointment__status='Pending').count()
+            upcoming_appointments_count = Appointment.objects.filter(adminappointment__employee=employee_profile,adminappointment__status='upcoming').count()
+            completed_appointments_count = Appointment.objects.filter(adminappointment__employee=employee_profile,adminappointment__status='Completed').count()
 
-        context['pending_appointments_count'] = pending_appointments_count
-        context['upcoming_appointments_count'] = upcoming_appointments_count
-        context['completed_appointments_count'] = completed_appointments_count
-        context['total_amount_spent'] =total_amount_spent
+            context['pending_appointments_count'] = pending_appointments_count
+            context['upcoming_appointments_count'] = upcoming_appointments_count
+            context['completed_appointments_count'] = completed_appointments_count
+            context['total_amount_spent'] =total_amount_spent
 
         return context
 
 
-class EmployeeUpdateProfileView(UserIsDoctorMixin,LoginRequiredMixin,SuccessMessageMixin,UpdateView):
+class EmployeeUpdateProfileView(UserIsEmployeeMixin,LoginRequiredMixin,SuccessMessageMixin,UpdateView):
     model= Employee
     form_class = EmployeeProfileForm
     success_message = 'Employee profile successfully updated'

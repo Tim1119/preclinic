@@ -152,6 +152,17 @@ class PatientDeleteAppointmentView(LoginRequiredMixin,UserIsPatientMixin,Success
 
 
 
+#  --------------------------------------------------- General Employee View ---------------------------------------------------------
+
+class GeneralEmployeeViewForNonDoctors(LoginRequiredMixin,UserIsEmployeeMixin,TemplateView):
+    template_name= 'appointments/employee/general_employee.html'
+    
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+       
+        return context
+    
 #  --------------------------------------------------- Doctor Views ---------------------------------------------------------
 
 class DoctorHomeView(LoginRequiredMixin,UserIsDoctorMixin,TemplateView):

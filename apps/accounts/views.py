@@ -1,17 +1,13 @@
-from django.shortcuts import render, redirect
-from django.views.generic import CreateView, TemplateView,View
-from .forms import SignUpForm, RegistrationForm
+from django.shortcuts import render, redirect,get_object_or_404
+from django.views.generic import CreateView
+from .forms import SignUpForm, SignInForm
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.sites.shortcuts import get_current_site
-from django.utils.encoding import force_bytes, force_str
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.template.loader import render_to_string
-from .token_generator import account_activation_token
-from django.contrib.auth import get_user_model
-from django.core.mail import EmailMessage
 from django.urls import reverse_lazy, reverse
-from django.http import HttpResponse
 from django.contrib.auth.views import LoginView
+from django.contrib import messages
+from django.contrib.auth.views import LogoutView
+from django.urls import reverse_lazy
+from apps.profiles.models import Employee
 
 class PatientSignupView(SuccessMessageMixin,CreateView):
     form_class = SignUpForm
@@ -53,19 +49,36 @@ class EmployeeSignupView(SuccessMessageMixin,CreateView):
 
 class LoginAccountView(SuccessMessageMixin, LoginView):
     template_name = 'accounts/login.html'
-    authentication_form = RegistrationForm
+    authentication_form = SignInForm
     success_message = 'Welcome, you are now logged in'
 
-    def get_success_url(self) -> str:
+    # # def form_valid(self, form):
+    # #     self.user =form.get_user()
+    # #     if self.user.is_authenticated:
+    # #         if self.user.is_patient is True:
+    # #             return redirect('appointments:all-patient-appointments')  # Replace with your customer dashboard URL
+    # #         elif self.user.is_employee is True:
+    # #             return redirect("appointments:general-employee-view-for-all-employees")
+    # #         elif self.user.is_staff is True:
+              
+    # #             return redirect('appointments:all-staff-appointments') 
+    # #     else:
+    # #         print(form.errors)
+    # #         messages.info(self.request,message="You do not a permitted account")
+    #         redirect("accounts:login")
+    def get_success_url(self):
         user = self.request.user
+
         if user.is_authenticated:
-            if hasattr(user, 'email'):
-                return redirect("appointments:patient-home")
-            if hasattr(user, 'email'):
-                return redirect("appointments:employee-home")
-        
-        return redirect("default:home")
+            if user.is_patient:
+                return reverse('appointments:all-patient-appointments')
+            elif user.is_employee:
+                return reverse('appointments:general-employee-view-for-all-employees')
+            elif user.is_staff:
+                return reverse('appointments:all-staff-appointments')
+        messages.info(self.request,"Sorry your account type is not permitted")
+        return redirect("accounts:home")
 
 
-def activate(request):
-    return render(request, 'accounts/confirm_activation.html')
+class LogoutUserView(LogoutView):
+    next_page = reverse_lazy('accounts:login')  

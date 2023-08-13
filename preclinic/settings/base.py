@@ -112,7 +112,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # -------------------------------------------------------------INTERNALIZATION ---------------------------------------------
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Africa/Lagos'

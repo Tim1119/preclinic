@@ -5,7 +5,7 @@ from .views import (PatientHomeView,PatientCreateAppointmentView,PatientDeleteAp
                     DoctorHomeView,AllDoctorAppointmentsView,PendingDoctorAppointmentsView,UpcomingDoctorAppointmentsView,
                     CompletedDoctorAppointmentsView,DoctorDetailAppointmentView,DoctorUpdateAppointmentView,
                     StaffHomeView,AllAppointmentsStaffView,PendingStaffAppointmentsView,CompletedStaffAppointmentsView,ApprovedStaffAppointmentsView,
-                    StaffDetailAppointmentView,StaffUpdateAppointmentView
+                    StaffDetailAppointmentView,StaffUpdateAppointmentView,GeneralEmployeeViewForNonDoctors
                     )
 
 
@@ -43,4 +43,10 @@ doctor_patterns = [
     path('update-doctor-appointment/<str:slug>/', DoctorUpdateAppointmentView.as_view(),name='update-doctor-appointment'),
    
 ]
-urlpatterns = patient_patterns + doctor_patterns + admin_patterns
+
+employee_patterns = [
+    path('general-employee-view-for-all-employees/', GeneralEmployeeViewForNonDoctors.as_view(),name='general-employee-view-for-all-employees'),
+
+]
+
+urlpatterns = patient_patterns + doctor_patterns + admin_patterns + employee_patterns

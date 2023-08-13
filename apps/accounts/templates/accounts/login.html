@@ -1,0 +1,29 @@
+{% extends 'base_auth.html' %}
+{% load static %}
+{% block content %}
+<div class="account-page">
+    <div class="account-center">
+        <div class="account-box">
+            <div class="account-logo">
+                <h4>Login to your account</h4>
+                <a href="index-2.html"><img src="{% static 'assets/img/logo-dark.png' %}" alt=""></a>
+            </div>
+            {% include 'alert.html' %}
+            <form action="{% url 'accounts:login' %}" class="form-signin" method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+                <div class="form-group text-center">
+                    <button class="btn btn-primary account-btn" type="submit">Login</button>
+                </div>
+                <div class="text-center login-link">
+                   Are you an employee and you don't have an account? <a class="text-primary" href="{% url 'accounts:employee-signup' %}">Signup</a>
+                </div>
+                <div class="text-center Signup-link">
+                   Are you a patient and you don't have an account? <a  class="text-primary" href="{% url 'accounts:patient-signup' %}">Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+    
