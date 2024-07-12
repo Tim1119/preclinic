@@ -75,7 +75,7 @@ class LoginAccountView(SuccessMessageMixin, LoginView):
                 return reverse('appointments:all-staff-appointments')
             else:
                 messages.info(self.request,"Sorry your account type is not permitted")
-                return reverse("accounts:home")
+                return reverse("accounts:login")
 
 
 class LogoutUserView(LogoutView):

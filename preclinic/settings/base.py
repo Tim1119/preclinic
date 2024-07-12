@@ -196,3 +196,6 @@ if ('DEBUG') == 'True':
 
 
 WSGI_APPLICATION = 'preclinic.wsgi.app'
+
+
+LOGIN_URL = "{% url 'account:login' %}"
