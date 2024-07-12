@@ -1,29 +1,27 @@
 {
+  
   "version": 2,
-  "builds": [
-    {
-      "src": "build_files.sh",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "staticfiles"
+    "builds": [
+      {
+        "src": "preclinic/wsgi.py",
+        "use": "@vercel/python",
+        "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
+      },
+      {
+        "src": "build_files.sh",
+        "use": "@vercel/static"
       }
-    },
-    {
-      "src": "preclinic/wsgi.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "preclinic/wsgi.py"
-    }
-  ],
-
+    ],
+    "routes": [
+      {
+        "src": "/staticfiles/(.*)",
+        "dest": "/staticfiles/$1"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "preclinic/wsgi.py"
+      }
+    ],
 
   "env": {
     "DATABASE_URL": "postgres://default:${DATABASE_PASSWORD}@ep-autumn-lab-a4by5dat.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
