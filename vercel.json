@@ -19,6 +19,9 @@
       "dest": "wsgi.py"
     }
   ],
+  "rewrites": [
+    {"source": "/(.*)", "destination": "/"}
+],
   "outputDirectory": "staticfiles",
   "env": {
     "DATABASE_URL": "postgres://default:${DATABASE_PASSWORD}@ep-autumn-lab-a4by5dat.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
