@@ -23,7 +23,7 @@ admin_patterns = [
 ]
 
 patient_patterns = [
-    path('doctor-home/', PatientHomeView.as_view(),name='patient-home-view'),
+    path('patient-home/', PatientHomeView.as_view(),name='patient-home-view'),
     path('all-patient-appointments/', AllPatientAppointmentsView.as_view(),name='all-patient-appointments'),
     path('pending-patient-appointments/', PendingPatientAppointmentsView.as_view(),name='pending-patient-appointments'),
     path('approved-patient-appointments/', ApprovedPatientAppointmentsView.as_view(),name='approved-patient-appointments'),
@@ -34,7 +34,7 @@ patient_patterns = [
     path('delete-patient-appointment/<str:slug>/', PatientDeleteAppointmentView.as_view(),name='delete-patient-appointment'),
 ]
 doctor_patterns = [
-    path('patient-home/', DoctorHomeView.as_view(),name='doctor-home-view'),
+    path('doctor-home/', DoctorHomeView.as_view(),name='doctor-home-view'),
     path('all-doctor-appointments/', AllDoctorAppointmentsView.as_view(),name='all-doctor-appointments'),
     path('pending-doctor-appointments/', PendingDoctorAppointmentsView.as_view(),name='pending-doctor-appointments'),
     path('approved-doctor-appointments/', UpcomingDoctorAppointmentsView.as_view(),name='approved-doctor-appointments'),

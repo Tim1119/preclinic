@@ -9,48 +9,52 @@ from django.contrib.auth.views import LogoutView
 from django.urls import reverse_lazy
 from apps.profiles.models import Employee,Patient
 
-class PatientSignupView(SuccessMessageMixin,CreateView):
+class PatientSignupView(SuccessMessageMixin, CreateView):
     form_class = SignUpForm
     template_name = 'accounts/patients/signup.html'
-    success_message = "account succesfully created"
-    success_url = reverse_lazy('accounts:login')
-
-
-    def post(self, request):
-        form = SignUpForm(request.POST or None)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.is_patient = True
-            user.is_employee = False
-            user.save()
-            return redirect('accounts:login')
-        else:
-            return render(request, 'accounts/patients/signup.html', {'form': form})
-
-
-class EmployeeSignupView(SuccessMessageMixin,CreateView):
-    form_class = SignUpForm
-    template_name = 'accounts/employee/signup.html'
     success_message = "Account succesfully created"
     success_url = reverse_lazy('accounts:login')
 
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.is_patient = True
+        user.is_employee = False
+        user.save()
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "There was an error with your form.")
+        return super().form_invalid(form)
 
-    def post(self, request):
-        form = SignUpForm(request.POST or None)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.is_employee = True
-            user.is_patient = False
-            user.save()
-            return redirect('accounts:login')
-        else:
-            return render(request, 'accounts/employee/signup.html', {'form': form})
 
+class EmployeeSignupView(SuccessMessageMixin, CreateView):
+    form_class = SignUpForm
+    template_name = 'accounts/employee/signup.html'
+    success_message = "Account successfully created"
+    success_url = reverse_lazy('accounts:login')
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.is_employee = True
+        user.is_patient = False
+        user.save()
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "There was an error with your form.")
+        return super().form_invalid(form)
 
 class LoginAccountView(SuccessMessageMixin, LoginView):
     template_name = 'accounts/login.html'
     authentication_form = SignInForm
     success_message = 'Welcome, you are now logged in'
+
+    def get(self, request, *args, **kwargs):
+        print('----->')
+        messages_list = messages.get_messages(request)
+        for message in messages_list:
+            print(message)
+        return super().get(request, *args, **kwargs)
 
   
     def get_success_url(self):
