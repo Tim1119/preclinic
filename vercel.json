@@ -5,7 +5,7 @@
       "src": "build_files.sh",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "ui/staticfiles"
+        "distDir": "staticfiles"
       }
     }
   ],
@@ -19,5 +19,8 @@
       "dest": "wsgi.py"
     }
   ],
-  "outputDirectory": "ui/staticfiles"
+  "outputDirectory": "staticfiles",
+  "env": {
+    "DATABASE_URL": "postgres://default:${DATABASE_PASSWORD}@ep-autumn-lab-a4by5dat.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
+  }
 }
