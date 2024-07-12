@@ -174,7 +174,7 @@ logging.config.dictConfig(
                 "level": "INFO",
                 "class": "logging.FileHandler",
                 "formatter": "file",
-                "filename": "logs/preclinic.log",
+                "filename": BASE_DIR / "logs/preclinic.log",
             },
             "django.server": DEFAULT_LOGGING["handlers"]["django.server"],
         },
