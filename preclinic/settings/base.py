@@ -94,6 +94,8 @@ WSGI_APPLICATION = 'preclinic.wsgi.application'
 # }
 
 
+
+
 DATABASES = {
     'default': {
         'ENGINE':env('DATABASE_ENGINE'),
@@ -190,4 +192,4 @@ if ('DEBUG') == 'True':
 
 
 
-# WSGI_APPLICATION = 'vercel_app.wsgi.app'
+WSGI_APPLICATION = 'preclinic.wsgi.app'
